@@ -34,4 +34,5 @@ struct slice {
         return ptr[i];
     }
     constexpr inline size_t size() const {return len;}
+    constexpr inline const T *data() const {return ptr;}
 };
