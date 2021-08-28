@@ -20,7 +20,7 @@ struct slice {
     ///Creates slice from a std::vector
     ///@param vec vector
     constexpr slice(const std::vector<T> &vec) : ptr((T*)vec.data()), _size(vec.size()) {}
-    ///Creates slice from a pointer and a size
+    ///Creates slice from a pointer and a length
     ///@param ptr pointer
     ///@param size size
     constexpr slice(T *ptr, size_t size) : ptr(ptr), _size(size) {}
@@ -31,9 +31,9 @@ struct slice {
     constexpr inline T &at(size_t i) {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -48,9 +48,9 @@ struct slice {
     constexpr inline T &at(long long i) {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -65,9 +65,9 @@ struct slice {
     constexpr inline T &at(int i) {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -82,9 +82,9 @@ struct slice {
     constexpr inline T &at(unsigned int i) {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -99,9 +99,9 @@ struct slice {
     constexpr inline T &at(long i) {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -116,9 +116,9 @@ struct slice {
     constexpr inline T &at(unsigned long i) {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -134,9 +134,9 @@ struct slice {
     constexpr inline const T &at(size_t i) const {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -151,9 +151,9 @@ struct slice {
     constexpr inline const T &at(long long i) const {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -168,9 +168,9 @@ struct slice {
     constexpr inline const T &at(int i) const {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -185,9 +185,9 @@ struct slice {
     constexpr inline const T &at(unsigned int i) const {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -202,9 +202,9 @@ struct slice {
     constexpr inline const T &at(long i) const {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
@@ -219,9 +219,9 @@ struct slice {
     constexpr inline const T &at(unsigned long i) const {
         if(i >= _size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the size is %llu but the index is %llu", _size, i)
+                snprintf(nullptr, 0, "the length is %llu but the index is %llu", _size, i)
             ];
-            sprintf(error, "the size is %llu but the index is %llu", _size, i);
+            sprintf(error, "the length is %llu but the index is %llu", _size, i);
 
             throw std::out_of_range(error);
 
