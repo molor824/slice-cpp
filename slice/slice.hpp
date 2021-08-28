@@ -9,22 +9,31 @@ template<typename T>
 struct slice {
     private:
     T *ptr;
-    size_t len;
+    size_t size;
 
     public:
-    constexpr slice() : ptr(nullptr), len(0) {}
+    constexpr slice() : ptr(nullptr), size(0) {}
     template <size_t L>
-    constexpr slice(const std::array<T, L> &arr) : ptr((T*)arr.data()), len(L) {}
-    constexpr slice(const std::vector<T> &vec) : ptr((T*)vec.data()), len(vec.size()) {}
-    constexpr slice(T *ptr, size_t len) : ptr(ptr), len(len) {}
+    ///Creates slice from a std::array
+    ///@param arr array
+    constexpr slice(const std::array<T, L> &arr) : ptr((T*)arr.data()), size(L) {}
+    ///Creates slice from a std::vector
+    ///@param vec vector
+    constexpr slice(const std::vector<T> &vec) : ptr((T*)vec.data()), size(vec.size()) {}
+    ///Creates slice from a pointer and a sizegth
+    ///@param ptr pointer
+    ///@param size size
+    constexpr slice(T *ptr, size_t size) : ptr(ptr), size(size) {}
 
     constexpr inline T &operator[](size_t i) {return ptr[i];}
+    ///Simular to operator[] except it throws error when index is out of range
+    ///@param i index
     constexpr inline T &at(size_t i) {
-        if(i >= len) {
+        if(i >= size) {
             char *error = new char[
-                snprintf(nullptr, 0, "the length is %llu but the index is %llu", len, i)
+                snprintf(nullptr, 0, "the sizegth is %llu but the index is %llu", size, i)
             ];
-            sprintf(error, "the length is %llu but the index is %llu", len, i);
+            sprintf(error, "the sizegth is %llu but the index is %llu", size, i);
 
             throw std::out_of_range(error);
 
@@ -33,6 +42,8 @@ struct slice {
         
         return ptr[i];
     }
-    constexpr inline size_t size() const {return len;}
+    ///Returns size
+    constexpr inline size_t size() const {return size;}
+    //Returns immutable pointer
     constexpr inline const T *data() const {return ptr;}
 };
