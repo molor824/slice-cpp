@@ -127,6 +127,109 @@ struct slice {
         
         return ptr[(size_t)i];
     }
+
+    constexpr inline const T &operator[](size_t i) const {return ptr[i];}
+    ///Simular to operator[] except it throws error when index is out of range
+    ///@param i index
+    constexpr inline const T &at(size_t i) const {
+        if(i >= _size) {
+            char *error = new char[
+                snprintf(nullptr, 0, "the sizegth is %llu but the index is %llu", _size, i)
+            ];
+            sprintf(error, "the sizegth is %llu but the index is %llu", _size, i);
+
+            throw std::out_of_range(error);
+
+            delete[] error;
+        }
+        
+        return ptr[i];
+    }
+    constexpr inline const T &operator[](long long i) const {return ptr[(size_t)i];}
+    ///Simular to operator[] except it throws error when index is out of range
+    ///@param i index
+    constexpr inline const T &at(long long i) const {
+        if(i >= _size) {
+            char *error = new char[
+                snprintf(nullptr, 0, "the sizegth is %llu but the index is %llu", _size, i)
+            ];
+            sprintf(error, "the sizegth is %llu but the index is %llu", _size, i);
+
+            throw std::out_of_range(error);
+
+            delete[] error;
+        }
+        
+        return ptr[(size_t)i];
+    }
+    constexpr inline const T &operator[](int i) const {return ptr[(size_t)i];}
+    ///Simular to operator[] except it throws error when index is out of range
+    ///@param i index
+    constexpr inline const T &at(int i) const {
+        if(i >= _size) {
+            char *error = new char[
+                snprintf(nullptr, 0, "the sizegth is %llu but the index is %llu", _size, i)
+            ];
+            sprintf(error, "the sizegth is %llu but the index is %llu", _size, i);
+
+            throw std::out_of_range(error);
+
+            delete[] error;
+        }
+        
+        return ptr[(size_t)i];
+    }
+    constexpr inline const T &operator[](unsigned int i) const {return ptr[(size_t)i];}
+    ///Simular to operator[] except it throws error when index is out of range
+    ///@param i index
+    constexpr inline const T &at(unsigned int i) const {
+        if(i >= _size) {
+            char *error = new char[
+                snprintf(nullptr, 0, "the sizegth is %llu but the index is %llu", _size, i)
+            ];
+            sprintf(error, "the sizegth is %llu but the index is %llu", _size, i);
+
+            throw std::out_of_range(error);
+
+            delete[] error;
+        }
+        
+        return ptr[(size_t)i];
+    }
+    constexpr inline const T &operator[](long i) const {return ptr[(size_t)i];}
+    ///Simular to operator[] except it throws error when index is out of range
+    ///@param i index
+    constexpr inline const T &at(long i) const {
+        if(i >= _size) {
+            char *error = new char[
+                snprintf(nullptr, 0, "the sizegth is %llu but the index is %llu", _size, i)
+            ];
+            sprintf(error, "the sizegth is %llu but the index is %llu", _size, i);
+
+            throw std::out_of_range(error);
+
+            delete[] error;
+        }
+        
+        return ptr[(size_t)i];
+    }
+    constexpr inline const T &operator[](unsigned long i) const {return ptr[(size_t)i];}
+    ///Simular to operator[] except it throws error when index is out of range
+    ///@param i index
+    constexpr inline const T &at(unsigned long i) const {
+        if(i >= _size) {
+            char *error = new char[
+                snprintf(nullptr, 0, "the sizegth is %llu but the index is %llu", _size, i)
+            ];
+            sprintf(error, "the sizegth is %llu but the index is %llu", _size, i);
+
+            throw std::out_of_range(error);
+
+            delete[] error;
+        }
+        
+        return ptr[(size_t)i];
+    }
     ///Returns size
     constexpr inline size_t size() const {return _size;}
     //Returns immutable pointer
