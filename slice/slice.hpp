@@ -5,6 +5,8 @@
 #include <array>
 #include <vector>
 
+///A slice containing pointer and length. 
+///Which can be used to pass array and vector through a function
 template<typename T>
 struct slice {
     private:
@@ -14,72 +16,70 @@ struct slice {
     public:
     constexpr slice() : ptr(nullptr), _size(0) {}
     template <size_t L>
-    ///creates slice from a std::array
+    ///Creates slice from a std::array
     ///@param arr array
     constexpr slice(const std::array<T, L> &arr) : ptr((T*)arr.data()), _size(L) {}
-    ///creates slice from a std::vector
+    ///Creates slice from a std::vector
     ///@param vec vector
     constexpr slice(const std::vector<T> &vec) : ptr((T*)vec.data()), _size(vec.size()) {}
-    ///creates slice from a pointer and a length
+    ///Creates slice from a pointer and a length
     ///@param ptr pointer
     ///@param size size
     constexpr slice(T *ptr, size_t size) : ptr(ptr), _size(size) {}
 
-    ///gets element in the given index
-    ///wont panic when index out of range which could cause segfault
-    ///use at() if you want more safer method
+    ///Gets element by index. 
+    ///It wont panic when index out of range which could cause segfault. 
+    ///Use at() for more safer method
     ///@param i index
-    ///@return immutable reference to the element(for mutable reference, get from mutable slice)
+    ///@return Immutable reference to the element
     constexpr inline const T &operator[](size_t i) const {
         return ptr[i];
     }
-    ///gets element in the given index
-    ///it will panic when index out of range
+    ///Gets elemeny by index. 
+    ///It will panic when index out of range
     ///@param i index
-    ///@return immutable reference to the element(for mutable reference, get from mutable slice)
+    ///@return Immutable reference to the element
     constexpr const T &at(size_t i) const {
         if(i >= _size) {
             const char *fmt = "index out of range: the length is %llu but the index is %llu";
             char *err = new char[snprintf(nullptr, 0, fmt, _size, i)];
             sprintf(err, fmt, _size, i);
-
-            fprintf(stderr, "error: '%s'\n", err);
+            
+            throw std::out_of_range(err);
 
             delete[] err;
-            exit(-1);
         }
 
         return ptr[i];
     }
-    ///gets element in the given index
-    ///wont panic when index out of range which could cause segfault
-    ///use at() if you want more safer method
+    ///Gets element by index. 
+    ///When index out of range, it wont throw which could cause segfault. 
+    ///Use at() for more safer method
     ///@param i index
-    ///@return mutable reference to the element(for immutable reference, get from immutable slice)
+    ///@return Immutable reference to the element
     constexpr inline T &operator[](size_t i) {
         return ptr[i];
     }
-    ///gets element in the given index
-    ///it will panic when index out of range
+    ///Gets elemeny by index. 
+    ///When index out of range, it throws std::out_of_range
     ///@param i index
-    ///@return mutable reference to the element(for immutable reference, get from immutable slice)
+    ///@return Immutable reference to the element
     constexpr T &at(size_t i) {
         if(i >= _size) {
             const char *fmt = "index out of range: the length is %llu but the index is %llu";
             char *err = new char[snprintf(nullptr, 0, fmt, _size, i)];
             sprintf(err, fmt, _size, i);
-
-            fprintf(stderr, "error: '%s'\n", err);
+            
+            throw std::out_of_range(err);
 
             delete[] err;
-            exit(-1);
         }
 
         return ptr[i];
     }
-    ///@return size of the slice
+    ///@return Size of the slice
     constexpr inline size_t size() const {return _size;}
-    ///@return size of the slice
+    ///@return Const pointer pointing to the first element of slice
     constexpr inline const T *data() const {return ptr;}
 
     constexpr inline T *begin() {return ptr;}
