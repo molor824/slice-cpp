@@ -26,9 +26,15 @@ struct slice {
     constexpr slice(T *ptr, size_t size) : ptr(ptr), _size(size) {}
 
     ///Gets element in the given index
-    ///It will panic when tries to access index out of range
+    ///Wont panic when index out of range which could cause segfault
+    ///Use at() if you want more safer method
+    constexpr inline T &operator[](size_t i) {
+        return ptr[i];
+    }
+    ///Gets element in the given index
+    ///It will panic when index out of range
     ///@param i index
-    constexpr T &operator[](size_t i) {
+    constexpr T &at(size_t i) {
         if(i >= _size) {
             const char *fmt = "index out of range: the length is %llu but the index is %llu";
             char *err = new char[snprintf(nullptr, 0, fmt, _size, i)];
