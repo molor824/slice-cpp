@@ -35,7 +35,7 @@ struct slice {
     constexpr inline const T &operator[](size_t i) const {
         return ptr[i];
     }
-    ///Gets elemeny by index. 
+    ///Gets element by index. 
     ///It will panic when index out of range
     ///@param i index
     ///@return Immutable reference to the element
@@ -60,7 +60,7 @@ struct slice {
     constexpr inline T &operator[](size_t i) {
         return ptr[i];
     }
-    ///Gets elemeny by index. 
+    ///Gets element by index. 
     ///When index out of range, it throws std::out_of_range
     ///@param i index
     ///@return Immutable reference to the element
