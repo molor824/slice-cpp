@@ -56,14 +56,14 @@ struct slice {
     ///When index out of range, it wont throw which could cause segfault. 
     ///Use at() for more safer method
     ///@param i index
-    ///@return Immutable reference to the element
+    ///@return Mutable reference to the element
     constexpr inline T &operator[](size_t i) {
         return ptr[i];
     }
     ///Gets element by index. 
     ///When index out of range, it throws std::out_of_range
     ///@param i index
-    ///@return Immutable reference to the element
+    ///@return Mutable reference to the element
     constexpr T &at(size_t i) {
         if(i >= _size) {
             const char *fmt = "index out of range: the length is %llu but the index is %llu";
