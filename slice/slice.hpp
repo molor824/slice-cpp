@@ -7,6 +7,9 @@
 #include <string>
 #include <cstring>
 #include <memory>
+#include <initializer_list>
+
+constexpr auto err_fmt = "the length is %llu but the index is %llu";
 
 ///A slice containing pointer and length. 
 ///Which can be used to pass array and vector through a function
@@ -19,10 +22,10 @@ struct slice {
     public:
     constexpr inline slice() : ptr(nullptr), _size(0) {}
     template <size_t L>
-    ///Creates slice from a std::array
+    ///Creates slice from a array
     ///@param arr array
     constexpr inline slice(const std::array<T, L> &arr) : ptr((T *)arr.data()), _size(L) {}
-    ///Creates slice from a std::vector
+    ///Creates slice from a vector
     ///@param vec vector
     constexpr inline slice(const std::vector<T> &vec) : ptr((T *)vec.data()), _size(vec.size()) {}
     ///Creates slice from a pointer and a length
@@ -35,6 +38,9 @@ struct slice {
     ///Creates slice from a string
     ///@param str string
     constexpr inline slice<const char *>(const char *str) : ptr((T *)str), _size(strlen(str)) {}
+    ///Creates slice from an initializer list
+    ///@param list initializer list
+    constexpr inline slice(const std::initializer_list<T> &list) : ptr((T *)list.begin()), _size(list.size()) {}
 
     ///Trims current slice
     ///@param begin begin pointer
@@ -62,10 +68,9 @@ struct slice {
     ///@return Immutable reference to the element
     const T &at(size_t i) const {
         if(i >= _size) {
-            auto fmt = "index out of range: the length is %llu but the index is %llu";
-            auto err = std::unique_ptr<char []>(new char[snprintf(nullptr, 0, fmt, _size, i)]);
+            auto err = std::unique_ptr<char []>(new char[snprintf(nullptr, 0, err_fmt, _size, i)]);
 
-            sprintf(err.get(), fmt, _size, i);
+            sprintf(err.get(), err_fmt, _size, i);
 
             throw std::out_of_range(err.get());
         }
@@ -86,10 +91,9 @@ struct slice {
     ///@return Mutable reference to the element
     T &at(size_t i) {
         if(i >= _size) {
-            auto fmt = "the length is %llu but the index is %llu";
-            auto err = std::unique_ptr<char[]>(new char[snprintf(nullptr, 0, fmt, _size, i)]);
+            auto err = std::unique_ptr<char[]>(new char[snprintf(nullptr, 0, err_fmt, _size, i)]);
 
-            sprintf(err.get(), fmt, _size, i);
+            sprintf(err.get(), err_fmt, _size, i);
 
             throw std::out_of_range(err.get());
         }
