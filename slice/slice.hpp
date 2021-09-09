@@ -28,12 +28,41 @@ struct slice {
     ///Gets element in the given index
     ///Wont panic when index out of range which could cause segfault
     ///Use at() if you want more safer method
+    ///@param i index
+    ///@return immutable reference to the element(for mutable reference, get from mutable slice)
+    constexpr inline const T &operator[](size_t i) const {
+        return ptr[i];
+    }
+    ///Gets element in the given index
+    ///It will panic when index out of range
+    ///@param i index
+    ///@return immutable reference to the element(for mutable reference, get from mutable slice)
+    constexpr const T &at(size_t i) const {
+        if(i >= _size) {
+            const char *fmt = "index out of range: the length is %llu but the index is %llu";
+            char *err = new char[snprintf(nullptr, 0, fmt, _size, i)];
+            sprintf(err, fmt, _size, i);
+
+            fprintf(stderr, "error: '%s'\n", err);
+
+            delete[] err;
+            exit(-1);
+        }
+
+        return ptr[i];
+    }
+    ///Gets element in the given index
+    ///Wont panic when index out of range which could cause segfault
+    ///Use at() if you want more safer method
+    ///@param i index
+    ///@return mutable reference to the element(for immutable reference, get from immutable slice)
     constexpr inline T &operator[](size_t i) {
         return ptr[i];
     }
     ///Gets element in the given index
     ///It will panic when index out of range
     ///@param i index
+    ///@return mutable reference to the element(for immutable reference, get from immutable slice)
     constexpr T &at(size_t i) {
         if(i >= _size) {
             const char *fmt = "index out of range: the length is %llu but the index is %llu";
