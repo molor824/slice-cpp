@@ -23,12 +23,12 @@ struct slice {
     ///Creates slice from a pointer and a length
     ///@param ptr pointer
     ///@param size size
-    constexpr slice(T *ptr, size_t size) : ptr(ptr), _size(size) {}
+    constexpr slice(T *ptr, std::size_t size) : ptr(ptr), _size(size) {}
 
     ///Gets element in the given index
     ///It will panic when tries to access index out of range
     ///@param i index
-    constexpr T &operator[](size_t i) {
+    constexpr T &operator[](std::size_t i) {
         if(i >= _size) {
             const char *fmt = "index out of range: the length is %llu but the index is %llu";
             char *err = new char[snprintf(nullptr, 0, fmt, _size, i)];
