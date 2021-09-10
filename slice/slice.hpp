@@ -13,7 +13,7 @@ constexpr auto err_fmt = "the length is %llu but the index is %llu";
 
 constexpr inline size_t strlen_constexpr(const char *str) {
     size_t i = 0;
-    for(; i < str[i]; i++) {}
+    for(; str[i]; i++) {}
 
     return i;
 }
