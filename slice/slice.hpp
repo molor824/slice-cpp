@@ -16,42 +16,33 @@ constexpr auto err_fmt = "the length is %llu but the index is %llu";
 template<typename T>
 struct slice {
     private:
-    T *ptr;
+    const T *ptr;
     size_t _size;
 
     public:
-    constexpr inline slice() : ptr(nullptr), _size(0) {}
-    template <size_t L>
-    ///Creates slice from a array
-    ///@param arr array
-    constexpr inline slice(const std::array<T, L> &arr) : ptr((T *)arr.data()), _size(L) {}
-    ///Creates slice from a vector
-    ///@param vec vector
-    constexpr inline slice(const std::vector<T> &vec) : ptr((T *)vec.data()), _size(vec.size()) {}
-    ///Creates slice from a pointer and a length
-    ///@param ptr pointer
-    ///@param size size
-    constexpr inline slice(T *ptr, const size_t size) : ptr(ptr), _size(size) {}
-    ///Creates slice from a string
-    ///@param str string
-    constexpr inline slice<std::string>(const std::string &str) : ptr((T *)str.data()), _size(str.size()) {}
-    ///Creates slice from a string
-    ///@param str string
-    constexpr inline slice<const char *>(const char *str) : ptr((T *)str), _size(strlen(str)) {}
+    constexpr slice() : ptr(nullptr), _size(0) {}
+    ///Creates slice from anything with pointer and size
+    ///@param arr array, vector, string...
+    template <typename T1>
+    constexpr slice(const T1 &arr) : ptr(arr.data()), _size(arr.size()) {}
     ///Creates slice from an initializer list
     ///@param list initializer list
-    constexpr inline slice(const std::initializer_list<T> &list) : ptr((T *)list.begin()), _size(list.size()) {}
+    constexpr slice(const std::initializer_list<T> &list) : ptr(list.begin()), _size(list.size()) {}
+    ///Creates slice from a pointer and size
+    ///@param ptr pointer
+    ///@param size size
+    constexpr slice(const T *ptr, const size_t size) : ptr(ptr), _size(size) {}
 
     ///Trims current slice
     ///@param begin begin pointer
     ///@param end end pointer
-    constexpr inline slice<T> trim(T *begin, T *end) {
+    constexpr slice<T> trim(T *begin, T *end) {
         return slice<T>(begin, (size_t)(end - begin));
     }
     ///Trims current slice
     ///@param begin begin index
     ///@param end end index
-    constexpr inline slice<T> trim(const size_t begin, const size_t end) {
+    constexpr slice<T> trim(const size_t begin, const size_t end) {
         return slice<T>((T *)data() + begin, end - begin);
     }
     ///Gets element by index. 
@@ -59,7 +50,7 @@ struct slice {
     ///Use at() for more safer method
     ///@param i index
     ///@return Immutable reference to the element
-    constexpr inline const T &operator[](size_t i) const {
+    constexpr const T &operator[](size_t i) const {
         return ptr[i];
     }
     ///Gets element by index. 
@@ -82,7 +73,7 @@ struct slice {
     ///Use at() for more safer method
     ///@param i index
     ///@return Mutable reference to the element
-    constexpr inline T &operator[](size_t i) {
+    constexpr T &operator[](size_t i) {
         return ptr[i];
     }
     ///Gets element by index. 
@@ -101,12 +92,12 @@ struct slice {
         return ptr[i];
     }
     ///@return Size of the slice
-    constexpr inline size_t size() const {return _size;}
+    constexpr size_t size() const {return _size;}
     ///@return Const pointer pointing to the first element of slice
-    constexpr inline const T *data() const {return ptr;}
+    constexpr const T *data() const {return ptr;}
 
-    constexpr inline T *begin() {return ptr;}
-    constexpr inline T *end() {return ptr + _size;}
+    constexpr T *begin() {return ptr;}
+    constexpr T *end() {return ptr + _size;}
 };
 template <typename T>
 constexpr std::ostream &operator<<(std::ostream &os, const slice<T> &lh) {
