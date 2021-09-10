@@ -11,13 +11,20 @@
 
 constexpr auto err_fmt = "the length is %llu but the index is %llu";
 
+constexpr inline size_t strlen_constexpr(const char *str) {
+    size_t i = 0;
+    for(; i < str[i]; i++) {}
+
+    return i;
+}
+
 ///A slice containing pointer and length. 
 ///Which can be used to pass array and vector through a function
 template<typename T>
 struct slice {
     private:
     const T *ptr;
-    size_t _size;
+    const size_t _size;
 
     public:
     constexpr slice() : ptr(nullptr), _size(0) {}
@@ -32,13 +39,9 @@ struct slice {
     ///@param ptr pointer
     ///@param size size
     constexpr slice(const T *ptr, const size_t size) : ptr(ptr), _size(size) {}
-    ///Creates slice from char array assuming end is null terminator
+    ///Creates slice from a C string
     ///@param str string
-    constexpr slice<const char *>(const char *str) : ptr(str), _size(strlen(str)) {}
-    ///Creates slice from char array without assuming end is null terminator
-    ///@param str string
-    ///@param size size
-    constexpr slice<const char *>(const char *str, const size_t size) : ptr(str), _size(size) {}
+    constexpr slice(const char *str) : ptr(str), _size(strlen_constexpr(str)) {}
 
     ///Trims current slice
     ///@param begin begin pointer
@@ -115,4 +118,7 @@ constexpr std::ostream &operator<<(std::ostream &os, const slice<T> &lh) {
     }
 
     return os << lh[lh.size() - 1] << '}';
+}
+constexpr inline std::ostream &operator<<(std::ostream &os, const slice<char> &lh) {
+    return os << lh.data();
 }
