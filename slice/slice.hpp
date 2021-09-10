@@ -32,6 +32,13 @@ struct slice {
     ///@param ptr pointer
     ///@param size size
     constexpr slice(const T *ptr, const size_t size) : ptr(ptr), _size(size) {}
+    ///Creates slice from char array assuming end is null terminator
+    ///@param str string
+    constexpr slice<const char *>(const char *str) : ptr(str), _size(strlen(str)) {}
+    ///Creates slice from char array without assuming end is null terminator
+    ///@param str string
+    ///@param size size
+    constexpr slice<const char *>(const char *str, const size_t size) : ptr(str), _size(size) {}
 
     ///Trims current slice
     ///@param begin begin pointer
